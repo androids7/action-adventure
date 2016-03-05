@@ -1,5 +1,5 @@
 #Action Adventure
-This is a remake of Cavestory in C++ and SDl from scratch.
+This is a remake of Cavestory in C++ and SDL from scratch.
 The project was developed following this [tutorial](https://www.youtube.com/playlist?list=PLNOBk_id22bw6LXhrGfhVwqQIa-M2MsLa).
 
 ## Dependencies
