@@ -1,6 +1,7 @@
 # Visual Studio files
 .vs/
 Debug/
+Release/
 action-adventure.VC.opendb
 action-adventure.sdf
 action-adventure.sln
