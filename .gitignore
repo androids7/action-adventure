@@ -1,0 +1,18 @@
+# Visual Studio files
+.vs/
+Debug/
+action-adventure.VC.opendb
+action-adventure.sdf
+action-adventure.sln
+action-adventure.vcxproj
+action-adventure.vcxproj.filters
+action-adventure.vcxproj.user
+
+# DLL's
+SDL2.dll
+SDL2_image.dll
+libjpeg-9.dll
+libpng16-16.dll
+libtiff-5.dll
+libwebp-4.dll
+zlib1.dll
