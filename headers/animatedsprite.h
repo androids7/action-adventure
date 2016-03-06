@@ -15,7 +15,7 @@ class Graphics;
  * Holds logic for animating sprites
  *
  */
-class AnimatedSprite : Sprite {
+class AnimatedSprite : public Sprite {
 
 public:
     AnimatedSprite();
@@ -38,12 +38,6 @@ public:
      * Draws the sprite to the screen
      */
     void draw(Graphics &graphics, int x, int y);
-
-    /**
-    * void setupAnimations
-    * A required function that sets up all animations for a sprite
-    */
-    virtual void setupAnimations();
 
 protected:
     float _timeToUpdate;
@@ -78,7 +72,13 @@ protected:
      * animationDone
      * Logic that happens when an animation ends
      */
-    virtual void animationDone(std::string currentAnimation);
+    virtual void animationDone(std::string currentAnimation) = 0;
+
+    /**
+    * void setupAnimations
+    * A required function that sets up all animations for a sprite
+    */
+    virtual void setupAnimations() = 0;
 
 private:
     std::map<std::string, std::vector<SDL_Rect>> _animations;
