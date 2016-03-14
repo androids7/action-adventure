@@ -651,4 +651,44 @@
    <tile gid="0"/>
   </data>
  </layer>
+ <objectgroup name="collisions">
+  <object x="144" y="15.75" width="16.25" height="16.75"/>
+  <object x="143.5" y="64" width="16.75" height="15.75"/>
+  <object x="114.75" y="80" width="77.5" height="15.75"/>
+  <object x="64" y="63.5" width="16" height="48.5"/>
+  <object x="160.636" y="64" width="15.1818" height="15.5455"/>
+  <object x="176" y="31.9091" width="16" height="31.9091"/>
+  <object x="160.364" y="15.8182" width="15.8182" height="16"/>
+  <object x="111.909" y="16.0909" width="16" height="15.7273"/>
+  <object x="128.091" y="15.9091" width="15.6364" height="10.9091"/>
+  <object x="96.0909" y="32.0909" width="15.8182" height="17.0909"/>
+  <object x="80.0909" y="47.9091" width="15.7273" height="11"/>
+  <object x="64.0909" y="47.9091" width="15.9091" height="15.4545"/>
+  <object x="80.0909" y="113.182" width="6.63636" height="14.8182"/>
+  <object x="87.1818" y="117.818" width="8.90909" height="10.2727"/>
+  <object x="96.1818" y="119.909" width="5.63636" height="8.09091"/>
+  <object x="102.091" y="123.636" width="8.09091" height="4.36364"/>
+  <object x="96.7273" y="128.182" width="13.5227" height="48.2273"/>
+  <object x="110.36" y="176.364" width="9.64" height="15.8182"/>
+  <object x="208" y="128" width="32.375" height="15.75"/>
+  <object x="192.375" y="80.125" width="31.625" height="11.375"/>
+  <object x="224.25" y="80.125" width="31.625" height="16"/>
+  <object x="240" y="96.25" width="16" height="31.875"/>
+  <object x="119.875" y="181.875" width="9.875" height="9.125"/>
+  <object x="130.125" y="184" width="3.75" height="7"/>
+  <object x="134.125" y="187" width="4" height="3.875"/>
+  <object x="128" y="191.125" width="64.625" height="6.75"/>
+  <object x="179" y="189" width="13.625" height="2.125"/>
+  <object x="184.125" y="184.875" width="8.75" height="3.75"/>
+  <object x="193" y="179" width="11.375" height="18.625"/>
+  <object x="204" y="173" width="20" height="25"/>
+  <object x="208.125" y="159.875" width="15.875" height="12.875"/>
+  <object x="194" y="143.5" width="16.75" height="16.75"/>
+  <object x="129.25" y="144.5" width="43.25" height="14.25"/>
+ </objectgroup>
+ <objectgroup color="#00ff00" name="spawn_points">
+  <object name="player" x="151" y="55.25" width="4.25" height="3.5">
+   <ellipse/>
+  </object>
+ </objectgroup>
 </map>
