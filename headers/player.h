@@ -34,6 +34,12 @@ public:
      */
     void stopMoving();
 
+    /**
+    * void jump
+    * Starts jump
+    */
+    void jump();
+
     virtual void animationDone(std::string currentAnimation);
     virtual void setupAnimations();
 

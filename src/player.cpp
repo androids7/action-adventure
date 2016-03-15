@@ -5,6 +5,7 @@
 
 namespace player_constants {
     const float WALK_SPEED = 0.2f;
+    const float JUMP_SPEED = 0.7f;
     const float GRAVITY = 0.002f;
     const float GRAVITY_CAP = 0.8f;
 }
@@ -62,6 +63,14 @@ void Player::moveRight() {
 void Player::stopMoving() {
     this->_dx = 0.0f;
     this->playAnimation(this->_facing == RIGHT ? "IdleRight" : "IdleLeft");
+}
+
+void Player::jump() {
+    if (this->_grounded) {
+        this->_dy = 0;
+        this->_dy -= player_constants::JUMP_SPEED;
+        this->_grounded = false;
+    }
 }
 
 // void handleTileCollisions
