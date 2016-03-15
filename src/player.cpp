@@ -1,5 +1,6 @@
 #include "player.h"
 #include "graphics.h"
+#include "slope.h"
 
 
 namespace player_constants {
@@ -69,11 +70,15 @@ void Player::handleTileCollisions(std::vector<Rectangle> &others) {
     // Figure out what side the collision happened on and move the player accordingly
     for (int i = 0; i < others.size(); i++) {
         sides::Side collisionSide = Sprite::getCollisionSide(others.at(i));
-        if (collisionSide) {
+        if (collisionSide != sides::NONE) {
             switch (collisionSide) {
                 case sides::TOP:
-                    this->_y = others.at(i).getBottom() + 1;
                     this->_dy = 0;
+                    this->_y = others.at(i).getBottom() + 1;
+                    if (this->_grounded) {
+                        this->_dx = 0;
+                        this->_x -= this->_facing == RIGHT ? 1.0f : -1.0f;
+                    }
                     break;
                 case sides::BOTTOM:
                     this->_y = others.at(i).getTop() - this->_boundingBox.getHeight() - 1;
@@ -91,6 +96,29 @@ void Player::handleTileCollisions(std::vector<Rectangle> &others) {
                 default:
                     break;
             }
+        }
+    }
+}
+
+// void handleSlopeCollisions
+// Handles collisions with ALL slopes the player is colliding with
+void Player::handleSlopeCollisions(std::vector<Slope> &others) {
+    for (int i = 0; i < others.size(); i++) {
+        // Calculate where on the slope the player's bottom center is touching
+        // and use y=mx+b to figure out the y position to place him at
+        // First calculate "b" (slope intercept) using one of the points (b = y - mx)
+        int b = (others.at(i).getP1().y - (others.at(i).getSlope() * fabs(others.at(i).getP1().x)));
+
+        // Now get player's center x
+        int centerX = this->_boundingBox.getCenterX();
+
+        // Now pass that X int the equation y = mx + b (using our newly found b and x) to get the new y position
+        int newY = (others.at(i).getSlope() * centerX) + b - 8; // 8 is temporary to fix a problem
+
+        // Re-position the player to the correct "y"
+        if (this->_grounded) {
+            this->_y = newY - this->getBoundingBox().getHeight();
+            this->_grounded = true;
         }
     }
 }
