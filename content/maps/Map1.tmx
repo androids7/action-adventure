@@ -695,7 +695,7 @@
   <object x="223.875" y="79.875" width="17.4375" height="16.3125"/>
  </objectgroup>
  <objectgroup color="#00ff00" name="spawn_points">
-  <object name="player" x="151" y="55.25" width="4.25" height="3.5">
+  <object name="player" x="149.375" y="50.625" width="4.25" height="3.5">
    <ellipse/>
   </object>
  </objectgroup>
