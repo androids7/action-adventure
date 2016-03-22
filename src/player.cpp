@@ -22,7 +22,9 @@ Player::Player(Graphics &graphics, Vector2 spawnPoint) :
     _facing(LEFT),
     _grounded(false),
     _lookingUp(false),
-    _lookingDown(false)
+    _lookingDown(false),
+    _maxHealth(3),
+    _currentHealth(3)
 {
 
     graphics.loadImage("content/sprites/MyChar.png");
