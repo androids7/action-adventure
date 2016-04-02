@@ -695,7 +695,7 @@
   <object x="223.875" y="79.875" width="17.4375" height="16.3125"/>
  </objectgroup>
  <objectgroup color="#00ff00" name="spawn_points">
-  <object name="player" x="149.375" y="50.625" width="4.25" height="3.5">
+  <object name="player" x="128.375" y="69.625" width="4.25" height="3.5">
    <ellipse/>
   </object>
  </objectgroup>
@@ -711,6 +711,13 @@
   </object>
   <object x="173.125" y="194">
    <polyline points="0,0 37.125,-24.75"/>
+  </object>
+ </objectgroup>
+ <objectgroup name="doors">
+  <object x="146.75" y="45.5" width="11" height="18">
+   <properties>
+    <property name="destination" value="Map2"/>
+   </properties>
   </object>
  </objectgroup>
 </map>

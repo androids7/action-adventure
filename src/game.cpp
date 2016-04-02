@@ -1,7 +1,6 @@
 #include <SDL2/SDL.h>
 
 #include "game.h"
-#include "graphics.h"
 #include "input.h"
 
 #include <algorithm>
@@ -13,8 +12,8 @@
 
 
 namespace {
-    const int FPS = 50;
-    const int MAX_FRAME_TIME = 5 * 1000 / FPS;
+    const int FPS = 60;
+    const int MAX_FRAME_TIME = 1000 / FPS;
 }
 
 Game::Game() {
@@ -31,8 +30,8 @@ void Game::gameLoop() {
     Input input;
     SDL_Event event;
 
-    this->_level = Level("Map1", Vector2(100, 100), graphics);
-    this->_player = Player(graphics, this->_level.getPlayerSpawnPoints());
+    this->_level = Level("Map1", graphics);
+    this->_player = Player(graphics, this->_level.getPlayerSpawnPoint());
     this->_hud = HUD(graphics, this->_player);
 
     int LAST_UPDATE_TIME = SDL_GetTicks();
@@ -91,6 +90,7 @@ void Game::gameLoop() {
         const int CURRENT_TIME_MS = SDL_GetTicks();
         int ELAPSED_TIME_MS = CURRENT_TIME_MS - LAST_UPDATE_TIME;
 
+        this->_graphics = graphics;
         this->update(std::min(ELAPSED_TIME_MS, MAX_FRAME_TIME));
         LAST_UPDATE_TIME = CURRENT_TIME_MS;
 
@@ -111,7 +111,7 @@ void Game::draw(Graphics &graphics) {
 
 void Game::update(float elapsedTime) {
     this->_player.update(elapsedTime);
-    this->_level.update(elapsedTime);
+    this->_level.update(elapsedTime, this->_player);
     this->_hud.update(elapsedTime);
 
     // Check collisions
@@ -125,5 +125,11 @@ void Game::update(float elapsedTime) {
     std::vector<Slope> otherSlopes;
     if ((otherSlopes = this->_level.checkSlopeCollisions(this->_player.getBoundingBox())).size() > 0) {
         this->_player.handleSlopeCollisions(otherSlopes);
+    }
+
+    // Checks doors
+    std::vector<Door> otherDoors;
+    if ((otherDoors = this->_level.checkDoorCollisions(this->_player.getBoundingBox())).size() > 0) {
+        this->_player.handleDoorCollisions(otherDoors, this->_level, this->_graphics);
     }
 }

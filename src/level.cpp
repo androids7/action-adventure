@@ -3,6 +3,8 @@
 #include "globals.h"
 #include "tinyxml2.h"
 #include "utils.h"
+#include "enemy.h"
+
 #include <SDL2/SDL.h>
 #include <sstream>
 #include <algorithm>
@@ -12,9 +14,8 @@ using namespace tinyxml2;
 
 Level::Level() {}
 
-Level::Level(std::string mapName, Vector2 spawnPoint, Graphics &graphics) :
+Level::Level(std::string mapName, Graphics &graphics) :
     _mapName(_mapName),
-    _spawnPoint(spawnPoint),
     _size(Vector2(0, 0))
 {
 
@@ -280,15 +281,76 @@ void Level::loadMap(std::string mapName, Graphics &graphics) {
                     }
                 }
             }
+            else if (ss.str() == "doors") {
+                XMLElement* pObject = pObjectGroup->FirstChildElement("object");
+                if (pObject != NULL) {
+                    while (pObject) {
+                        float x = pObject->FloatAttribute("x");
+                        float y = pObject->FloatAttribute("y");
+                        float w = pObject->FloatAttribute("width");
+                        float h = pObject->FloatAttribute("height");
+                        Rectangle rect = Rectangle(x, y, w, h);
+
+                        XMLElement* pProperties = pObject->FirstChildElement("properties");
+                        if (pProperties != NULL) {
+                            while (pProperties) {
+                                XMLElement* pProperty = pProperties->FirstChildElement("property");
+                                if (pProperty != NULL) {
+                                    while (pProperty) {
+                                        const char* name = pProperty->Attribute("name");
+                                        std::stringstream ss;
+                                        ss << name;
+                                        if (ss.str() == "destination") {
+                                            const char* value = pProperty->Attribute("value");
+                                            std::stringstream ss2;
+                                            ss2 << value;
+                                            Door door = Door(rect, ss2.str());
+                                            this->_doorList.push_back(door);
+                                        }
+                                        pProperty = pProperty->NextSiblingElement("property");
+                                    }
+                                }
+                                pProperties = pProperties->NextSiblingElement("properties");
+                            }
+                        }
+
+                        pObject = pObject->NextSiblingElement("object");
+                    }
+                }
+            }
+
+            else if (ss.str() == "enemies") {
+                float x, y;
+                XMLElement* pObject = pObjectGroup->FirstChildElement("object");
+                if (pObject != NULL) {
+                    while (pObject) {
+                        x = pObject->FloatAttribute("x");
+                        y = pObject->FloatAttribute("y");
+                        const char* name = pObject->Attribute("name");
+                        std::stringstream ss;
+                        ss << name;
+                        if (ss.str() == "bat") {
+                            this->_enemies.push_back(new Bat(graphics, Vector2(std::floor(x) * globals::SPRITE_SCALE,
+                                std::floor(y) * globals::SPRITE_SCALE)));
+                        }
+
+                        pObject = pObject->NextSiblingElement("object");
+                    }
+                }
+            }
 
             pObjectGroup = pObjectGroup->NextSiblingElement("objectgroup");
         }
     }
 }
 
-void Level::update(int elapsedTime) {
+void Level::update(int elapsedTime, Player &player) {
     for (int i = 0; i < this->_animatedTileList.size(); i++) {
         this->_animatedTileList.at(i).update(elapsedTime);
+    }
+
+    for (int i = 0; i < this->_enemies.size(); i++) {
+        this->_enemies.at(i)->update(elapsedTime, player);
     }
 }
 
@@ -299,6 +361,10 @@ void Level::draw(Graphics &graphics) {
 
     for (int i = 0; i < this->_animatedTileList.size(); i++) {
         this->_animatedTileList.at(i).draw(graphics);
+    }
+
+    for (int i = 0; i < this->_enemies.size(); i++) {
+        this->_enemies.at(i)->draw(graphics);
     }
 }
 
@@ -325,7 +391,18 @@ std::vector<Slope> Level::checkSlopeCollisions(const Rectangle &other) {
     return others;
 }
 
-const Vector2 Level::getPlayerSpawnPoints() const {
+std::vector<Door> Level::checkDoorCollisions(const Rectangle & other) {
+    std::vector<Door> others;
+    for (int i = 0; i < this->_doorList.size(); i++) {
+        if (this->_doorList.at(i).collidesWith(other)) {
+            others.push_back(this->_doorList.at(i));
+        }
+    }
+
+    return others;
+}
+
+const Vector2 Level::getPlayerSpawnPoint() const {
     return this->_spawnPoint;
 }
 

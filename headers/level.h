@@ -6,27 +6,31 @@
 #include "rectangle.h"
 #include "slope.h"
 #include "animatedtile.h"
-#include <vector>
-#include <string>
+#include "door.h"
+#include "player.h"
 
 class Graphics;
+class Enemy;
+class Player;
 struct SDL_Texture;
+struct SDL_Rect;
 struct Tileset;
 
 class Level {
 
 public:
     Level();
-    Level(std::string mapName, Vector2 spawnPoint, Graphics &graphics);
+    Level(std::string mapName, Graphics &graphics);
     ~Level();
 
-    void update(int elapsedTime);
+    void update(int elapsedTime, Player &player);
     void draw(Graphics &graphics);
 
     std::vector<Rectangle> checkTileCollisions(const Rectangle &other);
     std::vector<Slope> checkSlopeCollisions(const Rectangle &other);
+    std::vector<Door> checkDoorCollisions(const Rectangle &other);
 
-    const Vector2 getPlayerSpawnPoints() const;
+    const Vector2 getPlayerSpawnPoint() const;
 
 private:
     std::string _mapName;
@@ -44,6 +48,10 @@ private:
 
     std::vector<AnimatedTile> _animatedTileList;
     std::vector<AnimatedTileInfo> _animatedTileInfos;
+
+    std::vector<Door> _doorList;
+
+    std::vector<Enemy*> _enemies;
 
     /**
      * void loadMap

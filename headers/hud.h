@@ -19,7 +19,16 @@ private:
 
     Sprite _healthBarSprite;
     Sprite _healthNumber1;
+    Sprite _currentHealthBar;
 
+    //Exp sprites
+    Sprite _lvWord;
+    Sprite _lvNumber;
+    Sprite _expBar;
+
+    // Weapon info
+    Sprite _slash;
+    Sprite _dashes;
 
 };
 
