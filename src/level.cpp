@@ -391,11 +391,22 @@ std::vector<Slope> Level::checkSlopeCollisions(const Rectangle &other) {
     return others;
 }
 
-std::vector<Door> Level::checkDoorCollisions(const Rectangle & other) {
+std::vector<Door> Level::checkDoorCollisions(const Rectangle &other) {
     std::vector<Door> others;
     for (int i = 0; i < this->_doorList.size(); i++) {
         if (this->_doorList.at(i).collidesWith(other)) {
             others.push_back(this->_doorList.at(i));
+        }
+    }
+
+    return others;
+}
+
+std::vector<Enemy*> Level::checkEnemyCollisions(const Rectangle &other) {
+    std::vector<Enemy*> others;
+    for (int i = 0; i < this->_enemies.size(); i++) {
+        if (this->_enemies.at(i)->getBoundingBox().collidesWith(other)) {
+            others.push_back(this->_enemies.at(i));
         }
     }
 
